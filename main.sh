@@ -27,4 +27,28 @@ sleep 3
 rm -rvf ./aws_library/
 }
 
-makedirs
+function filediff() {
+
+echo $(whoami) > uptimediff
+uptime > uptime1
+uptime > uptime2
+
+read -rp "Enter first file name: " name1
+read -rp "Enter second file name: " name2
+diff $name1 $name2 &
+comparing=$?
+
+	if [[ $comparing -eq 0 ]]
+		then
+			echo "they are same"
+			exit 5
+		else
+			read -rp "would you like to see difference?" c
+			case $c in
+				y) diff $name1 $name2 ;;
+				*) break ;;
+			esac
+	fi
+}
+
+filediff
